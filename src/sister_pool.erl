@@ -74,10 +74,10 @@ handle_call(stop, _From, State) ->
 
 %% error if the number of uids requested plus the number already followed is > 25,000
 %% sort workers based on utilization
-follow(Uids, FStream, FError, State) ->
-    {State, RestUids, FailedUids} = fill_workers(Uids, State),
-    {State, RestUids, FailedUids} = start_workers(Uids, FStream, FError, State),
-    {ok, {RestUids, FailedUids}, State}.
+%% follow(Uids, FStream, FError, State) ->
+%%     {State, RestUids, FailedUids} = fill_workers(Uids, State),
+%%     {State, RestUids, FailedUids} = start_workers(Uids, FStream, FError, State),
+%%     {ok, {RestUids, FailedUids}, State}.
 
 fill_workers(Uids, State) ->
     F = fun({_,UidsA}, {_,UidsB}) -> length(UidsA) =< length(UidsB) end,
@@ -93,9 +93,11 @@ fill_workers(RestUids, FailedUids, State, Workers) ->
     if
         length(Uids) >= ?MAX_USERS_PER_CONN ->
             Workers1 = lists:append(Rest, [{Pid,Uids}]),
-            fill_workers(Workers1, RestUids, FailedUids);
+            ok; %%fill_workers(Workers1, RestUids, FailedUids);
         true ->
-            {[], 
+            %% {[],
+            ok
+    end.
 
             
             
